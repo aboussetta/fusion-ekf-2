@@ -101,7 +101,7 @@ int main(int argc, char* argv[]) {
     	    if (sensor_id.compare("L") == 0) {
 
             cout << "Getting lidar values... " << endl;
-
+            
             double lidar_px, lidar_py;
             VectorXd lidar_values(2);
             
