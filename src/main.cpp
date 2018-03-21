@@ -18,8 +18,6 @@ using std::vector;
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 
-
-
 // for convenience
 using json = nlohmann::json;
 
