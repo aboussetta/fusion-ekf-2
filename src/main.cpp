@@ -178,12 +178,12 @@ int main(int argc, char* argv[]) {
           cout << "estimate_py: " << estimate(1) << endl;
           cout << "estimate_vx: " << estimate(2) << endl;
           cout << "estimate_vy: " << estimate(3) << endl;
-          cout << "---------------------------------------------------" << endl
+          cout << "---------------------------------------------------" << endl;
           cout << "truth_values_px: " << truth_values(0) << endl;
           cout << "truth_values_py: " << truth_values(1) << endl;
           cout << "truth_values_vx: " << truth_values(2) << endl;
           cout << "truth_values_vy: " << truth_values(3) << endl;
-          cout << "---------------------------------------------------" << endl
+          cout << "---------------------------------------------------" << endl;
           cout << "rmse_x: " << RMSE(0) << endl;
           cout << "rmse_y: " << RMSE(1) << endl;
           cout << "rmse_vx: " << RMSE(2) << endl;
