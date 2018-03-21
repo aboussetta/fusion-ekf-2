@@ -76,9 +76,7 @@ int main(int argc, char* argv[]) {
       auto s = hasData(std::string(data));
 
       if (s != "") {
-
         cout << "Got message." << endl;
-
         auto j = json::parse(s);
         std::string event = j[0].get<std::string>();
 
@@ -169,8 +167,6 @@ int main(int argc, char* argv[]) {
           cout << "rmse_vy: " << RMSE(3) << endl;
           cout << "**************************************************" << endl;
 
-          cout << "prepared estimate." << endl;
-
           json msgJson;
 
           msgJson["estimate_x"] = estimate(0);
@@ -185,8 +181,8 @@ int main(int argc, char* argv[]) {
 
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
           cout << "sent estimate." << endl;
-
         }
+        
       } else {
         std::string msg = "42[\"manual\",{}]";
         ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
