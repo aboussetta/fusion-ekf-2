@@ -123,10 +123,9 @@ int main(int argc, char* argv[]) {
 
             double rho, phi, drho;
             VectorXd radar_values(3);
-
-          	iss >> rho;
-          	iss >> phi;
-          	iss >> drho;
+            iss >> rho;
+            iss >> phi;
+            iss >> drho;
             iss >> timestamp;
 
             cout << "radar values:" << rho << "," << phi << " and " << drho << endl;
