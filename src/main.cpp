@@ -104,9 +104,9 @@ int main(int argc, char* argv[]) {
 
             double lidar_px, lidar_py;
             VectorXd lidar_values(2);
-
-          	iss >> lidar_px;
-          	iss >> lidar_py;
+            
+            iss >> lidar_px;
+            iss >> lidar_py;
             iss >> timestamp;
 
             cout << "lidar values:" << lidar_px << " and " << lidar_py << "." << endl;
