@@ -130,20 +130,19 @@ int main(int argc, char* argv[]) {
           double px, py, vx, vy;
           VectorXd truth_values(4);
 
-    	    iss >> px;
-    	    iss >> py;
-    	    iss >> vx;
-    	    iss >> vy;
+          iss >> px;
+          iss >> py;
+          iss >> vx;
+          iss >> vy;
           iss >> timestamp;
-
+          
           truth_values << px, py, vx, vy;
-
     	    all_truths.push_back(truth_values);
           cout << "Got all ground truths." << endl;
 
           fusionEKF.process(sensor_data);
           VectorXd estimate = fusionEKF.get();
-          //contains (px, py, vx, vy) estimate of FusionEKF
+          //contains (px, py, vx, vy) estimate by FusionEKF
 
     	    all_estimations.push_back(estimate);
       	  VectorXd RMSE = calculate_RMSE(all_estimations, all_truths);
