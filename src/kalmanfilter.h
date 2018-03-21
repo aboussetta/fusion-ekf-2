@@ -10,12 +10,12 @@ using Eigen::VectorXd;
 class KalmanFilter{
 
   private:
-    int n;
-    VectorXd x;
-    MatrixXd P;
-    MatrixXd F;
-    MatrixXd Q;
-    MatrixXd I;
+    int _n;
+    VectorXd _x;
+    MatrixXd _P;
+    MatrixXd _F;
+    MatrixXd _Q;
+    MatrixXd _I;
 
   public:
     KalmanFilter(){};

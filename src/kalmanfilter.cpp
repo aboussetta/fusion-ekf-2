@@ -3,41 +3,41 @@
 void KalmanFilter::start(
   const int nin, const VectorXd& xin, const MatrixXd& Pin, const MatrixXd& Fin, const MatrixXd& Qin){
 
-  this->n = nin;
-  this->I = MatrixXd::Identity(this->n, this->n);
-  this->x = xin;
-  this->P = Pin;
-  this->F = Fin;
-  this->Q = Qin;
+  _n = nin;
+  _I = MatrixXd::Identity(_n, _n);
+  _x = xin;
+  _P = Pin;
+  _F = Fin;
+  _Q = Qin;
 }
 
 void KalmanFilter::setQ(const MatrixXd& Qin){
-  this->Q = Qin;
+  _Q = Qin;
 }
 
 void KalmanFilter::updateF(const double dt){
-  this->F(0, 2) = dt;
-  this->F(1, 3) = dt;
+  _F(0, 2) = dt;
+  _F(1, 3) = dt;
 }
 
 VectorXd KalmanFilter::get() const{
-  return this->x;
+  return _x;
 }
 
 void KalmanFilter::predict(){
-  this->x = this->F * this->x;
-  this->P = this->F * this->P * this->F.transpose() + this->Q;
+  _x = _F * _x;
+  _P = _F * _P * _F.transpose() + _Q;
 }
 
 void KalmanFilter::update(const VectorXd& z, const MatrixXd& H, const VectorXd& Hx, const MatrixXd& R){
 
-  const MatrixXd PHt = this->P * H.transpose();
+  const MatrixXd PHt = _P * H.transpose();
   const MatrixXd S = H * PHt + R;
   const MatrixXd K = PHt * S.inverse();
   VectorXd y = z - Hx;
 
   if (y.size() == 3) y(1) = atan2(sin(y(1)), cos(y(1))); //if radar measurement, normalize angle
 
-  this->x = this->x + K * y;
-  this->P = (this->I - K * H) * this->P;
+  _x = _x + K * y;
+  _P = (_I - K * H) * _P;
 }
