@@ -99,8 +99,6 @@ int main(int argc, char* argv[]) {
           DataPoint sensor_data;
 
           if (sensor_id.compare("L") == 0) {
-
-            cout << "Getting lidar values... " << endl;
             
             double lidar_px, lidar_py;
             VectorXd lidar_values(2);
@@ -109,13 +107,9 @@ int main(int argc, char* argv[]) {
             iss >> lidar_py;
             iss >> timestamp;
 
-            cout << "lidar values:" << lidar_px << " and " << lidar_py << "." << endl;
+            cout << "... done. lidar values:" << lidar_px << " and " << lidar_py << "." << endl;   
             lidar_values << lidar_px, lidar_py;
-            cout << "processing lidar..." << endl;
-
             sensor_data.set(timestamp, DataPointType::LIDAR, lidar_values);
-            cout << "Got lidar measurements." << endl;
-
 
           } else if (sensor_id.compare("R") == 0) {
 
@@ -128,11 +122,9 @@ int main(int argc, char* argv[]) {
             iss >> drho;
             iss >> timestamp;
 
-            cout << "radar values:" << rho << "," << phi << " and " << drho << endl;
+            cout << "...done. radar values:" << rho << "," << phi << " and " << drho << endl;
             radar_values << rho, phi, drho;
-
             sensor_data.set(timestamp, DataPointType::RADAR, radar_values);
-            cout << "... Got radar measurements." << endl;
           }
 
           double px, py, vx, vy;
@@ -147,14 +139,13 @@ int main(int argc, char* argv[]) {
           truth_values << px, py, vx, vy;
 
     	    all_truths.push_back(truth_values);
-          cout << "Got truths." << endl;
+          cout << "Got all ground truths." << endl;
 
           fusionEKF.process(sensor_data);
           VectorXd estimate = fusionEKF.get();
           //contains (px, py, vx, vy) estimate of FusionEKF
 
     	    all_estimations.push_back(estimate);
-
       	  VectorXd RMSE = calculate_RMSE(all_estimations, all_truths);
 
           cout << "**************************************************" << endl;
