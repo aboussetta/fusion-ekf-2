@@ -10,16 +10,16 @@ using Eigen::MatrixXd;
 using Eigen::VectorXd;
 
 enum class DataPointType{
-  LIDAR, RADAR, STATE
+  LIDAR, RADAR
 };
 
 class DataPoint{
 
   private:
-    long long timestamp;
-    bool initialized;
-    DataPointType data_type;
-    VectorXd raw;
+    long long _timestamp;
+    bool _initialized;
+    DataPointType _data_type;
+    VectorXd _raw;
 
   public:
     DataPoint();

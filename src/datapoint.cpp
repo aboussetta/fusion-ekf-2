@@ -3,7 +3,7 @@
 using namespace std;
 
 DataPoint::DataPoint(){
-  this->initialized = false;
+  _initialized = false;
 }
 
 DataPoint::DataPoint(const long long timestamp, const DataPointType data_type, const VectorXd raw){
@@ -11,57 +11,50 @@ DataPoint::DataPoint(const long long timestamp, const DataPointType data_type, c
 }
 
 void DataPoint::set(const long timestamp, const DataPointType data_type, const VectorXd raw){
-  this->timestamp = timestamp;
-  this->data_type = data_type;
-  this->raw = raw;
-  this->initialized = true;
+  _timestamp = timestamp;
+  _data_type = data_type;
+  _raw = raw;
+  _initialized = true;
 }
 
 VectorXd DataPoint::get() const{
-  return this->raw;
+  return _raw;
 }
 
 VectorXd DataPoint::get_state() const{
 
   VectorXd state(4);
 
-  if (this->data_type == DataPointType::LIDAR){
+  if (_data_type == DataPointType::LIDAR){
 
-    double x = this->raw(0);
-    double y = this->raw(1);
+    double x = _raw(0);
+    double y = _raw(1);
     state << x, y, 0.0, 0.0;
 
-  } else if (this->data_type == DataPointType::RADAR){
+  } else if (_data_type == DataPointType::RADAR){
 
-    state = convert_polar_to_cartesian(this->raw);
-
-  } else if (this->data_type == DataPointType::STATE){
-
-    state = this->raw;
+    state = convert_polar_to_cartesian(_raw);
   }
 
   return state;
 }
 
 long long DataPoint::get_timestamp() const{
-  return this->timestamp;
+  return _timestamp;
 }
 
 DataPointType DataPoint::get_type() const{
-  return this->data_type;
+  return _data_type;
 }
 
 void DataPoint::print() const{
 
-  if (this->initialized){
-
-    cout << "Timestamp: " << this->timestamp << endl;
-    cout << "Sensor ID: " << static_cast<int>(this->data_type) << " (LIDAR = 0 | RADAR = 1 | STATE = 2)" << endl;
+  if (_initialized){
+    cout << "Timestamp: " << _timestamp << endl;
+    cout << "Sensor ID: " << static_cast<int>(_data_type) << " (LIDAR = 0 | RADAR = 1)" << endl;
     cout << "Raw Data: " << endl;
-    cout << this->raw << endl;
-
+    cout << _raw << endl;
   } else {
-
     cout << "DataPoint is not initialized." << endl;
   }
 }
