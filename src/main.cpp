@@ -99,6 +99,8 @@ int main(int argc, char* argv[]) {
 
           if (sensor_id.compare("L") == 0) {
             
+            cout << "Getting lidar measurements... " << endl;
+
             double lidar_px, lidar_py;
             VectorXd lidar_values(2);
             
@@ -126,6 +128,8 @@ int main(int argc, char* argv[]) {
             sensor_data.set(timestamp, DataPointType::RADAR, radar_values);
           }
 
+          cout << "Getting ground truth... " << endl;
+
           double px, py, vx, vy;
           VectorXd truth_values(4);
 
@@ -136,8 +140,11 @@ int main(int argc, char* argv[]) {
           iss >> timestamp;
           
           truth_values << px, py, vx, vy;
+          cout << "...done. ground truth values:" 
+               << px << "," << py << ","<< vx << "and" << vy << endl;
+
           all_truths.push_back(truth_values);
-          cout << "Got all ground truths." << endl;
+          
 
           fusionEKF.process(sensor_data);
           VectorXd estimate = fusionEKF.get();
