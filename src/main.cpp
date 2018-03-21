@@ -98,7 +98,7 @@ int main(int argc, char* argv[]) {
           long long timestamp;
           DataPoint sensor_data;
 
-    	    if (sensor_id.compare("L") == 0) {
+          if (sensor_id.compare("L") == 0) {
 
             cout << "Getting lidar values... " << endl;
             
