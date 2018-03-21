@@ -60,7 +60,6 @@ VectorXd calculate_RMSE(const vector<VectorXd> &estimations, const vector<Vector
 
 int main(int argc, char* argv[]) {
 
-
   FusionEKF fusionEKF;
   vector<VectorXd> all_estimations;
   vector<VectorXd> all_truths;
@@ -137,14 +136,14 @@ int main(int argc, char* argv[]) {
           iss >> timestamp;
           
           truth_values << px, py, vx, vy;
-    	    all_truths.push_back(truth_values);
+          all_truths.push_back(truth_values);
           cout << "Got all ground truths." << endl;
 
           fusionEKF.process(sensor_data);
           VectorXd estimate = fusionEKF.get();
           //contains (px, py, vx, vy) estimate by FusionEKF
-
-    	    all_estimations.push_back(estimate);
+          
+          all_estimations.push_back(estimate);
       	  VectorXd RMSE = calculate_RMSE(all_estimations, all_truths);
 
           cout << "**************************************************" << endl;
