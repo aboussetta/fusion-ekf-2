@@ -161,18 +161,6 @@ int main(int argc, char* argv[]) {
 
       	  VectorXd RMSE = calculate_RMSE(all_estimations, all_truths);
 
-          json msgJson;
-
-          msgJson["estimate_x"] = estimate(0);
-          msgJson["estimate_y"] = estimate(1);
-
-          msgJson["rmse_x"] =  RMSE(0);
-          msgJson["rmse_y"] =  RMSE(1);
-          msgJson["rmse_vx"] = RMSE(2);
-          msgJson["rmse_vy"] = RMSE(3);
-
-          auto msg = "42[\"estimate_marker\"," + msgJson.dump() + "]";
-
           cout << "**************************************************" << endl;
           cout << "estimate_px: " << estimate(0) << endl;
           cout << "estimate_py: " << estimate(1) << endl;
@@ -191,6 +179,18 @@ int main(int argc, char* argv[]) {
           cout << "**************************************************" << endl;
 
           cout << "prepared estimate." << endl;
+
+          json msgJson;
+
+          msgJson["estimate_x"] = estimate(0);
+          msgJson["estimate_y"] = estimate(1);
+
+          msgJson["rmse_x"] =  RMSE(0);
+          msgJson["rmse_y"] =  RMSE(1);
+          msgJson["rmse_vx"] = RMSE(2);
+          msgJson["rmse_vy"] = RMSE(3);
+
+          auto msg = "42[\"estimate_marker\"," + msgJson.dump() + "]";
 
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
           cout << "sent estimate." << endl;
