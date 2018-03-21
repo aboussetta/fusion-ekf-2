@@ -90,23 +90,23 @@ int main(int argc, char* argv[]) {
           iss >> sensor_id;
 
           cout << "Got new data (string) from simulator." << endl;
-          cout << "Current measurement > sensor id: " << sensor_id << endl;
+          cout << "Current measurement -- sensor id: " << sensor_id << endl;
 
           long long timestamp;
           DataPoint sensor_data;
 
           if (sensor_id.compare("L") == 0) {
-            
+
             cout << "Getting lidar measurements... " << endl;
 
             double lidar_px, lidar_py;
             VectorXd lidar_values(2);
-            
+
             iss >> lidar_px;
             iss >> lidar_py;
             iss >> timestamp;
 
-            cout << "... done. lidar values:" << lidar_px << " and " << lidar_py << "." << endl;   
+            cout << "... done. lidar values:" << lidar_px << " and " << lidar_py << "." << endl;
             lidar_values << lidar_px, lidar_py;
             sensor_data.set(timestamp, DataPointType::LIDAR, lidar_values);
 
@@ -136,17 +136,17 @@ int main(int argc, char* argv[]) {
           iss >> vx;
           iss >> vy;
           iss >> timestamp;
-          
+
           truth_values << px, py, vx, vy;
-          cout << "...done. ground truth values:" 
-               << px << "," << py << ","<< vx << "and" << vy << endl;
+          cout << "...done. ground truth values:"
+               << px << "," << py << ","<< vx << " and " << vy << endl;
 
           all_truths.push_back(truth_values);
-          
+
           fusionEKF.process(sensor_data);
           VectorXd estimate = fusionEKF.get();
           //contains (px, py, vx, vy) estimate by FusionEKF
-          
+
           all_estimations.push_back(estimate);
       	  VectorXd RMSE = calculate_RMSE(all_estimations, all_truths);
 
@@ -182,7 +182,7 @@ int main(int argc, char* argv[]) {
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
           cout << "sent estimate." << endl;
         }
-        
+
       } else {
         std::string msg = "42[\"manual\",{}]";
         ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
