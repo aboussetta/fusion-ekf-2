@@ -92,7 +92,7 @@ int main(int argc, char* argv[]) {
           iss >> sensor_id;
 
           cout << "Got new data (string) from simulator." << endl;
-          cout << "sensor id: " << sensor_id << endl;
+          cout << "Current measurement > sensor id: " << sensor_id << endl;
 
           long long timestamp;
           DataPoint sensor_data;
@@ -145,7 +145,6 @@ int main(int argc, char* argv[]) {
 
           all_truths.push_back(truth_values);
           
-
           fusionEKF.process(sensor_data);
           VectorXd estimate = fusionEKF.get();
           //contains (px, py, vx, vy) estimate by FusionEKF
