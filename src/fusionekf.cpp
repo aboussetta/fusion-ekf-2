@@ -2,30 +2,30 @@
 
 FusionEKF::FusionEKF(){
 
-  this->initialized = false;
+  _initialized = false;
 
-  this->lidar_R = MatrixXd(this->lidar_n, this->lidar_n);
-  this->radar_R = MatrixXd(this->radar_n, this->radar_n);
-  this->lidar_H = MatrixXd(this->lidar_n, this->n);
+  _lidar_R = MatrixXd(_lidar_n, _lidar_n);
+  _radar_R = MatrixXd(_radar_n, _radar_n);
+  _lidar_H = MatrixXd(_lidar_n, _n);
 
-  this->P = MatrixXd(this->n, this->n);
-  this->F = MatrixXd::Identity(this->n, this->n);
-  this->Q = MatrixXd::Zero(this->n, this->n);
+  _P = MatrixXd(_n, _n);
+  _F = MatrixXd::Identity(_n, _n);
+  _Q = MatrixXd::Zero(_n, _n);
 
-  this->lidar_R << 0.0225, 0.0,
-                   0.0, 0.0225;
+  _lidar_R << 0.0225, 0.0,
+              0.0, 0.0225;
 
-  this->radar_R  << 0.09, 0.0, 0.0,
-                    0.0, 0.0009, 0,
-                    0.0, 0.0, 0.09;
+  _radar_R  << 0.09, 0.0, 0.0,
+               0.0, 0.0009, 0,
+               0.0, 0.0, 0.09;
 
-  this->lidar_H << 1.0, 0.0, 0.0, 0.0,
-                   0.0, 1.0, 0.0, 0.0;
+  _lidar_H << 1.0, 0.0, 0.0, 0.0,
+              0.0, 1.0, 0.0, 0.0;
 
-  this->P << 1.0, 0.0, 0.0, 0.0,
-             0.0, 1.0, 0.0, 0.0,
-             0.0, 0.0, 1000.0, 0.0,
-             0.0, 0.0, 0.0, 1000;
+  _P << 1.0, 0.0, 0.0, 0.0,
+        0.0, 1.0, 0.0, 0.0,
+        0.0, 0.0, 1000.0, 0.0,
+        0.0, 0.0, 0.0, 1000;
 }
 
 void FusionEKF::updateQ(const double dt){
@@ -34,29 +34,29 @@ void FusionEKF::updateQ(const double dt){
   const double dt3 = dt * dt2;
   const double dt4 = dt * dt3;
 
-  const double r11 = dt4 * this->ax / 4;
-  const double r13 = dt3 * this->ax / 2;
-  const double r22 = dt4 * this->ay / 4;
-  const double r24 = dt3 * this->ay / 2;
-  const double r31 = dt3 * this->ax / 2;
-  const double r33 = dt2 * this->ax;
-  const double r42 = dt3 * this->ay / 2;
-  const double r44 = dt2 * this->ay;
+  const double r11 = dt4 * _ax / 4;
+  const double r13 = dt3 * _ax / 2;
+  const double r22 = dt4 * _ay / 4;
+  const double r24 = dt3 * _ay / 2;
+  const double r31 = dt3 * _ax / 2;
+  const double r33 = dt2 * _ax;
+  const double r42 = dt3 * _ay / 2;
+  const double r44 = dt2 * _ay;
 
-  this->Q << r11, 0.0, r13, 0.0,
-             0.0, r22, 0.0, r24,
-             r31, 0.0, r33, 0.0,
-             0.0, r42, 0.0, r44;
+  _Q << r11, 0.0, r13, 0.0,
+        0.0, r22, 0.0, r24,
+        r31, 0.0, r33, 0.0,
+        0.0, r42, 0.0, r44;
 
-  this->KF.setQ(Q);
+  _KF.setQ(_Q);
 }
 
 void FusionEKF::start(const DataPoint& data){
 
-  this->timestamp = data.get_timestamp();
+  _timestamp = data.get_timestamp();
   VectorXd x = data.get_state();
-  this->KF.start(this->n, x, this->P, this->F, this->Q);
-  this->initialized = true;
+  _KF.start(_n, x, _P, _F, _Q);
+  _initialized = true;
 }
 
 void FusionEKF::compute(const DataPoint& data){
@@ -64,18 +64,18 @@ void FusionEKF::compute(const DataPoint& data){
   /**************************************************************************
    * PREDICTION STEP
    **************************************************************************/
-  const double dt = (data.get_timestamp() - this->timestamp) / 1.e6;
-  this->timestamp = data.get_timestamp();
+  const double dt = (data.get_timestamp() - _timestamp) / 1.e6;
+  _timestamp = data.get_timestamp();
 
   this->updateQ(dt);
-  this->KF.updateF(dt);
-  this->KF.predict();
+  _KF.updateF(dt);
+  _KF.predict();
 
   /**************************************************************************
    * UPDATE STEP
    **************************************************************************/
   const VectorXd z = data.get();
-  const VectorXd x = this->KF.get();
+  const VectorXd x = _KF.get();
 
   VectorXd Hx;
   MatrixXd R;
@@ -86,22 +86,22 @@ void FusionEKF::compute(const DataPoint& data){
     VectorXd s = data.get_state();
     H = calculate_jacobian(s);
     Hx = convert_cartesian_to_polar(x);
-    R =  this->radar_R;
+    R = _radar_R;
 
   } else if (data.get_type() == DataPointType::LIDAR){
 
-    H = this->lidar_H;
-    Hx = this->lidar_H * x;
-    R = this->lidar_R;
+    H = _lidar_H;
+    Hx = _lidar_H * x;
+    R = _lidar_R;
   }
 
-  this->KF.update(z, H, Hx, R);
+  _KF.update(z, H, Hx, R);
 }
 
 void FusionEKF::process(const DataPoint& data){
-  this->initialized ? this->compute(data) : this->start(data);
+  _initialized ? this->compute(data) : this->start(data);
 }
 
 VectorXd FusionEKF::get() const{
-  return this->KF.get();
+  return _KF.get();
 }
