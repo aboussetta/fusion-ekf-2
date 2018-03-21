@@ -35,7 +35,6 @@ std::string hasData(std::string s) {
   } else if (b1 != std::string::npos && b2 != std::string::npos) {
     return s.substr(b1, b2 - b1 + 1);
   }
-
   return "";
 }
 
