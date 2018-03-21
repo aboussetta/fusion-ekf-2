@@ -41,3 +41,12 @@ void KalmanFilter::update(const VectorXd& z, const MatrixXd& H, const VectorXd& 
   _x = _x + K * y;
   _P = (_I - K * H) * _P;
 }
+
+/*
+Normalizing Angles
+In C++, atan2() returns values between -pi and pi.
+When calculating phi in y = z - h(x) for radar measurements,
+the resulting angle phi in the y vector should be adjusted
+so that it is between -pi and pi. The Kalman filter is expecting
+small angle values between the range -pi and pi.
+*/
