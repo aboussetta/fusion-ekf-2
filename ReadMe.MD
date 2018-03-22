@@ -32,8 +32,9 @@ $ ./mac_install.sh
 ./run.sh
 ```
 
-5. Open simulator and select UKF and EKF
+5. Open simulator and select `EKF and UKF` section 
 6. Check the check box `data set 2` 
+7. You should see some animation and stuff represending UKF
 
 
 
