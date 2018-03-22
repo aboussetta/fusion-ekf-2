@@ -18,16 +18,22 @@
 ```
 git clone https://github.com/mithi/fusion-ekf-2.git
 ```
+3. Make scripts executable
+```
+$ chmod +x mac_install.sh
+$ chmod +x rush.sh
+```
 3. Install dependencies 
 ```
 $ ./mac_install.sh
 ```
-4. Compile and run, this will wait for 
+4. Make Build directory Compile and run
 ```
 ./run.sh
 ```
 
 5. Open simulator and select UKF and EKF
 6. Check the check box `data set 2` 
+
 
 
