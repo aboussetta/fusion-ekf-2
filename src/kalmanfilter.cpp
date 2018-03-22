@@ -20,7 +20,7 @@ void KalmanFilter::updateF(const double dt){
   _F(1, 3) = dt;
 }
 
-VectorXd KalmanFilter::get() const{
+VectorXd KalmanFilter::get_resulting_state() const{
   return _x;
 }
 
@@ -36,7 +36,10 @@ void KalmanFilter::update(const VectorXd& z, const MatrixXd& H, const VectorXd& 
   const MatrixXd K = PHt * S.inverse();
   VectorXd y = z - Hx;
 
-  if (y.size() == 3) y(1) = atan2(sin(y(1)), cos(y(1))); //if radar measurement, normalize angle
+  // Assume this is radar measurement
+  // y(1) is an angle, it shoulde be normalized
+  // refer to the comment at the bottom of this file
+  if (y.size() == 3) y(1) = atan2(sin(y(1)), cos(y(1)));
 
   _x = _x + K * y;
   _P = (_I - K * H) * _P;

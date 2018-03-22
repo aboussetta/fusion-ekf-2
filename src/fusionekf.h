@@ -32,7 +32,7 @@ class FusionEKF{
     void compute(const DataPoint& data);
     void start(const DataPoint& data);
     void process(const DataPoint& data);
-    VectorXd get() const;
+    VectorXd get_resulting_state() const;
 };
 
 #endif /* FUSIONEKF_H_*/

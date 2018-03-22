@@ -31,7 +31,7 @@ FusionEKF::FusionEKF(){
 void FusionEKF::updateQ(const double dt){
 
   // ax, ay are acceleration covariance treated as noise
-  
+
   const double dt2 = dt * dt;
   const double dt3 = dt * dt2;
   const double dt4 = dt * dt3;
@@ -65,6 +65,7 @@ void FusionEKF::compute(const DataPoint& data){
 
   /**************************************************************************
    * PREDICTION STEP
+   - Assumes current velocity is the same for this time period
    **************************************************************************/
   const double dt = (data.get_timestamp() - _timestamp) / 1.e6;
   _timestamp = data.get_timestamp();
@@ -75,9 +76,11 @@ void FusionEKF::compute(const DataPoint& data){
 
   /**************************************************************************
    * UPDATE STEP
+   - Updates appropriate matrices given on measurement
+   - Assumes measurement received is either from radar or lidar
    **************************************************************************/
-  const VectorXd z = data.get();
-  const VectorXd x = _KF.get();
+  const VectorXd z = data.get_raw_data();
+  const VectorXd x = _KF.get_resulting_state();
 
   VectorXd Hx;
   MatrixXd R;
@@ -104,6 +107,6 @@ void FusionEKF::process(const DataPoint& data){
   _initialized ? this->compute(data) : this->start(data);
 }
 
-VectorXd FusionEKF::get() const{
-  return _KF.get();
+VectorXd FusionEKF::get_resulting_state() const{
+  return _KF.get_resulting_state();
 }

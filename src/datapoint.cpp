@@ -17,7 +17,7 @@ void DataPoint::set(const long timestamp, const DataPointType data_type, const V
   _initialized = true;
 }
 
-VectorXd DataPoint::get() const{
+VectorXd DataPoint::get_raw_data() const{
   return _raw;
 }
 

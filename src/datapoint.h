@@ -25,7 +25,7 @@ class DataPoint{
     DataPoint();
     DataPoint(const long long timestamp, const DataPointType data_type, const VectorXd raw);
     void set(long timestamp, const DataPointType data_type, const VectorXd raw);
-    VectorXd get() const;
+    VectorXd get_raw_data() const;
     VectorXd get_state() const;
     DataPointType get_type() const;
     long long get_timestamp() const;

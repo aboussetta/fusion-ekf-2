@@ -38,7 +38,6 @@ std::string hasData(std::string s) {
   return "";
 }
 
-
 VectorXd calculate_RMSE(const vector<VectorXd> &estimations, const vector<VectorXd> &ground_truths){
 
   VectorXd rmse(4);
@@ -83,7 +82,7 @@ int main(int argc, char* argv[]) {
         if (event == "telemetry") {
           cout << "Got telemetry message." << endl;
 
-          // data from simulator
+          // Data from simulator
           string new_data = j[1]["sensor_measurement"];
           istringstream iss(new_data);
           string sensor_id = "";
@@ -144,10 +143,13 @@ int main(int argc, char* argv[]) {
           all_truths.push_back(truth_values);
 
           fusionEKF.process(sensor_data);
-          VectorXd estimate = fusionEKF.get();
-          //contains (px, py, vx, vy) estimate by FusionEKF
+          VectorXd estimate = fusionEKF.get_resulting_state();
+          // Contains (px, py, vx, vy) estimate by FusionEKF
 
           all_estimations.push_back(estimate);
+
+          // A measure of how the awesome the Kalman filter is working
+          // The smaller, the better
       	  VectorXd RMSE = calculate_RMSE(all_estimations, all_truths);
 
           cout << "**************************************************" << endl;
@@ -180,7 +182,7 @@ int main(int argc, char* argv[]) {
           auto msg = "42[\"estimate_marker\"," + msgJson.dump() + "]";
 
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
-          cout << "sent estimate." << endl;
+          cout << "...Sent estimate." << endl;
         }
 
       } else {

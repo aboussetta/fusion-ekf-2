@@ -22,7 +22,7 @@ class KalmanFilter{
     void start(const int nin, const VectorXd& xin, const MatrixXd& Pin, const MatrixXd& Fin, const MatrixXd& Qin);
     void setQ(const MatrixXd& Qin);
     void updateF(const double dt);
-    VectorXd get() const;
+    VectorXd get_resulting_state() const;
     void predict();
     void update(const VectorXd& z, const MatrixXd& H, const VectorXd& Hx, const MatrixXd& R);
 };
