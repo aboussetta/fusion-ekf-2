@@ -33,7 +33,7 @@ $ ./mac_install.sh
 ```
 
 5. Open simulator and select `EKF and UKF` section 
-6. Check the check box `data set 2` 
+6. Check the checkbox either `data set 2` or `data set 1`  
 7. You should see some animation and stuff representing EKF
 
 
