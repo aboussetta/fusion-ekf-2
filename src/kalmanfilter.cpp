@@ -37,7 +37,7 @@ void KalmanFilter::update(const VectorXd& z, const MatrixXd& H, const VectorXd& 
   VectorXd y = z - Hx;
 
   // Assume this is radar measurement
-  // y(1) is an angle, it shoulde be normalized
+  // y(1) is an angle (phi), it shoulde be normalized
   // refer to the comment at the bottom of this file
   if (y.size() == 3) y(1) = atan2(sin(y(1)), cos(y(1)));
 
