@@ -140,13 +140,13 @@ int main(int argc, char* argv[]) {
           cout << "...done. ground truth values:"
                << px << "," << py << ","<< vx << " and " << vy << endl;
 
-          all_truths.push_back(truth_values);
+          all_truths.emplace_back(truth_values);
 
           fusionEKF.process(sensor_data);
           VectorXd estimate = fusionEKF.get_resulting_state();
           // Contains (px, py, vx, vy) estimate by FusionEKF
 
-          all_estimations.push_back(estimate);
+          all_estimations.emplace_back(estimate);
 
           // A measure of how the awesome the Kalman filter is working
           // The smaller, the better
