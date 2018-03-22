@@ -21,7 +21,7 @@ git clone https://github.com/mithi/fusion-ekf-2.git
 3. Make scripts executable
 ```
 $ chmod +x mac_install.sh
-$ chmod +x rush.sh
+$ chmod +x run.sh
 ```
 3. Install dependencies 
 ```
@@ -34,7 +34,7 @@ $ ./mac_install.sh
 
 5. Open simulator and select `EKF and UKF` section 
 6. Check the check box `data set 2` 
-7. You should see some animation and stuff represending UKF
+7. You should see some animation and stuff representing EKF
 
 
 
