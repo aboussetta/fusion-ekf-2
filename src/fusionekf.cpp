@@ -30,7 +30,7 @@ FusionEKF::FusionEKF(){
 
 void FusionEKF::updateQ(const double dt){
 
-  // ax, ay are acceleration covariance treated as noise
+  // ax, ay are acceleration covariances treated as noise
 
   const double dt2 = dt * dt;
   const double dt3 = dt * dt2;
