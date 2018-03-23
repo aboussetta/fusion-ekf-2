@@ -71,7 +71,7 @@ void FusionEKF::compute(const DataPoint& data){
   _timestamp = data.get_timestamp();
 
   this->updateQ(dt);
-  _KF.updateF(dt);
+  _KF.updateF(dt); 
   _KF.predict();
 
   /**************************************************************************
@@ -79,11 +79,13 @@ void FusionEKF::compute(const DataPoint& data){
    - Updates appropriate matrices given on measurement
    - Assumes measurement received is either from radar or lidar
    **************************************************************************/
-  const VectorXd z = data.get_raw_data();
-  const VectorXd x = _KF.get_resulting_state();
+  const VectorXd z = data.get_raw_data(); // measurement from sensor
+  const VectorXd x = _KF.get_resulting_state(); // predicted state
 
-  VectorXd Hx;
-  MatrixXd R;
+  // Hx is the sensor measurement if the predicted state is true
+  // and the sensors are perfect (no noise)
+  VectorXd Hx;  
+  MatrixXd R; 
   MatrixXd H;
 
   if (data.get_type() == DataPointType::RADAR){
